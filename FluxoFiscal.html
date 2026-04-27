@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Fluxo Fiscal e Logístico</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7f9;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* BOX */
+.box {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    padding: 18px 24px;      /* mais espaço interno */
+    margin: 12px;            /* mais respiro entre blocos */
+    width: 420px;            /* ⬅️ AUMENTO PRINCIPAL */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 15px;         /* texto mais legível */
+    line-height: 1.4;
+}
+
+.box:hover {
+    transform: scale(1.04);
+    background: #e8f0fe;
+}
+
+/* TOOLTIP */
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    width: 300px;            /* maior */
+    background: #2d3436;
+    color: #fff;
+    text-align: left;
+    border-radius: 8px;
+    padding: 12px;
+    position: absolute;
+    z-index: 10;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.3s;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* mostrar tooltip */
+.box:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* TIPOS */
+.start { background: #55efc4; }
+.process { background: #dfe6e9; }
+.decision { background: #ffeaa7; }
+.end { background: #ff7675; }
+
+/* SETAS */
+.arrow {
+    font-size: 26px;
+    margin: 8px;
+}
+
+/* ROW */
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 100px;   /* ⬅️ mais espaço lateral */
+    margin-top: 20px;
+}
+
+/* HIDDEN */
+.hidden {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Fluxo Fiscal e Logístico</h2>
+
+<div class="container">
+
+<div class="box start">
+INÍCIO
+<div class="tooltip">Início do processo logístico/fiscal</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Recebimento NF
+<div class="tooltip">Entrada via URU, XML ou WMS</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Importação NF
+<div class="tooltip">Validação do XML e integração no sistema</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Conferência Física
+<div class="tooltip">Validação de peso, lote, validade e quantidade</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Boletim de Conferência
+<div class="tooltip">Registro de horário e responsável pela conferência</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box decision" onclick="toggle('divergencia')">
+Validação NF
+<div class="tooltip">Comparação entre físico x nota fiscal</div>
+</div>
+
+<div id="divergencia" class="hidden">
+
+<div class="row">
+
+<!-- OK -->
+<div>
+<div class="box process">
+OK
+<div class="tooltip">Sem divergências identificadas</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Entrada Estoque
+<div class="tooltip">Produto liberado para WMS/ERP</div>
+</div>
+</div>
+
+<!-- DIVERGÊNCIA -->
+<div>
+<div class="box process">
+Divergência
+<div class="tooltip">Diferença entre físico e nota</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+E-mail Cliente
+<div class="tooltip">Notificação formal da divergência</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box decision" onclick="toggle('tipos')">
+Classificação
+<div class="tooltip">Tipo de divergência encontrada</div>
+</div>
+
+<div id="tipos" class="hidden">
+
+<div class="box process">
+Produto a MAIS
+<div class="tooltip">Cliente decide devolver ou emitir NF complementar</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Produto a MENOS
+<div class="tooltip">Necessário estorno fiscal</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Código divergente
+<div class="tooltip">Ajuste necessário + nova NF</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Regularização
+<div class="tooltip">Situação corrigida fiscalmente</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Entrada Estoque
+<div class="tooltip">Após correção e validação</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Atualização Sistema
+<div class="tooltip">Integração com SAP / ERP</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Armazenagem
+<div class="tooltip">Controle por cliente (lote, validade, série)</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Expedição
+<div class="tooltip">Separação e preparação de pedidos</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Definição CFOP
+<div class="tooltip">Ex: 5906, 5907, 5921, etc.</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Emissão NF
+<div class="tooltip">Nota fiscal de saída (produto/palete)</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Envio
+<div class="tooltip">Despacho da mercadoria ao cliente</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box decision" onclick="toggle('devolucao')">
+Saída
+<div class="tooltip">Finalização ou devolução</div>
+</div>
+
+<div id="devolucao" class="hidden">
+
+<div class="row">
+
+<div>
+<div class="box process">
+Normal
+<div class="tooltip">Processo concluído com sucesso</div>
+</div>
+<div class="arrow">↓</div>
+<div class="box end">FIM</div>
+</div>
+
+<div>
+<div class="box process">
+Devolução
+<div class="tooltip">Cliente devolve mercadoria</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Recebimento
+<div class="tooltip">Nova conferência física</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Nova NF
+<div class="tooltip">Cliente reemite nota corrigida</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box process">
+Reentrada
+<div class="tooltip">Produto reintegrado ao estoque</div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="box end">FIM</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+function toggle(id) {
+    document.getElementById(id).classList.toggle("hidden");
+}
+</script>
+
+</body>
+</html>
